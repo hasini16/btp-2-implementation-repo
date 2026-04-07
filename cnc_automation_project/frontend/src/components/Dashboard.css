@@ -1,0 +1,104 @@
+/* src/components/Dashboard.css */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.action-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--primary-blue);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+}
+
+.action-btn:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+
+.action-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.action-btn:disabled {
+  background-color: var(--text-muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.status-card {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+}
+
+.status-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.status-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.status-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.status-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.status-healthy { color: var(--status-healthy); }
+.status-warning { color: var(--status-warning); }
+.status-critical { color: var(--status-critical); }
+
+.chart-container {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+}
+
+.chart-title {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-main);
+}
+
+.chart-wrapper {
+  height: 400px;
+  width: 100%;
+}

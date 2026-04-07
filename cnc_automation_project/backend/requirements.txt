@@ -1,0 +1,8 @@
+flask
+fastapi
+pywin32
+tensorflow
+keras
+lime
+pandas
+numpy
