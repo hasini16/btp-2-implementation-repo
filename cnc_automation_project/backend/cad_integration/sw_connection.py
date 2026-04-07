@@ -1,6 +1,12 @@
-import win32com.client
-import pythoncom
 import os
+import platform
+
+try:
+    import win32com.client
+    import pythoncom
+    WIN32_AVAILABLE = True
+except ImportError:
+    WIN32_AVAILABLE = False
 
 class SolidWorksConnection:
     def __init__(self):
@@ -9,6 +15,10 @@ class SolidWorksConnection:
 
     def connect(self):
         """Establishes a connection to SolidWorks via COM interface."""
+        if not WIN32_AVAILABLE:
+            print("SolidWorks integration is only supported on Windows. Running in mock mode/disabled.")
+            return False
+            
         try:
             # pythoncom.CoInitialize() is required for multi-threading/web server environments
             pythoncom.CoInitialize() 

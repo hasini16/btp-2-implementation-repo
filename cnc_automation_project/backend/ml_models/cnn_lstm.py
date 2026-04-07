@@ -4,6 +4,20 @@ from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Conv1D, MaxPooling1D, LSTM, Dense, Dropout, Flatten
 import os
 
+# Monkey-patch Dense to ignore quantization_config
+_original_dense_init = Dense.__init__
+def _patched_dense_init(self, *args, **kwargs):
+    kwargs.pop('quantization_config', None)
+    _original_dense_init(self, *args, **kwargs)
+Dense.__init__ = _patched_dense_init
+
+# Also patch keras.src.layers.core.dense.Dense directly in case of different import path
+try:
+    import keras.src.layers.core.dense
+    keras.src.layers.core.dense.Dense.__init__ = _patched_dense_init
+except ImportError:
+    pass
+
 class RULPredictor:
     def __init__(self, model_path='saved_models/cnn_lstm_rul.keras'):
        # Change this line in your __init__ method (around line 8):

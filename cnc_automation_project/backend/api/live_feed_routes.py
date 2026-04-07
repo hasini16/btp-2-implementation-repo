@@ -1,0 +1,43 @@
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+import json
+
+router = APIRouter()
+
+# Keep track of active WebSocket connections
+class ConnectionManager:
+    def __init__(self):
+        # We might have one ESP32 sending data, and multiple Frontend clients receiving it
+        self.active_connections: list[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        if websocket in self.active_connections:
+            self.active_connections.remove(websocket)
+
+    async def broadcast(self, message: str):
+        for connection in self.active_connections:
+            try:
+                await connection.send_text(message)
+            except Exception:
+                # If a client disconnected unexpectedly, we ignore it here
+                pass
+
+manager = ConnectionManager()
+
+@router.websocket("/ws")
+async def websocket_live_feed(websocket: WebSocket):
+    """
+    WebSocket endpoint for both ESP32 (producer) and React frontend (consumer).
+    When ESP32 sends JSON data, it broadcasts to all connected clients.
+    """
+    await manager.connect(websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            # The ESP32 sends a JSON string. We bounce it out to all connected clients.
+            await manager.broadcast(data)
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
