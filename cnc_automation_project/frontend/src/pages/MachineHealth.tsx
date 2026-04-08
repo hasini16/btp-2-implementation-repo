@@ -17,7 +17,7 @@ const MachineHealth: React.FC = () => {
   const [data, setData] = useState<SensorData[]>([]);
   const [connectionStatus, setConnectionStatus] = useState<string>('Connecting...');
   const [machineStatus, setMachineStatus] = useState<string>('Awaiting Data...');
-  
+
   // Ref to throttle toast warnings
   const lastWarningTime = useRef<number>(0);
 
@@ -55,16 +55,16 @@ const MachineHealth: React.FC = () => {
 
         // Machine status logic
         if (Math.abs(newDataPoint.accel_x) > 2.0 || Math.abs(newDataPoint.accel_y) > 2.0) {
-           setMachineStatus('Warning: High Vibration');
-           
-           // Throttle warning toast to max once every 10 seconds
-           const now = Date.now();
-           if (now - lastWarningTime.current > 10000) {
-             toast.error('High vibration anomalous spike detected!', { id: 'vibration-spike' });
-             lastWarningTime.current = now;
-           }
+          setMachineStatus('Warning: High Vibration');
+
+          // Throttle warning toast to max once every 10 seconds
+          const now = Date.now();
+          if (now - lastWarningTime.current > 10000) {
+            toast.error('High vibration anomalous spike detected!', { id: 'vibration-spike' });
+            lastWarningTime.current = now;
+          }
         } else {
-           setMachineStatus('Optimal');
+          setMachineStatus('Optimal');
         }
 
       } catch (e) {
@@ -94,7 +94,7 @@ const MachineHealth: React.FC = () => {
       <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
         Real-time telemetry from MPU6050 vibration analysis hooked into the CNN-LSTM predictor model.
       </p>
-      
+
       <div className="status-indicators">
         <div className="status-card">
           <div className="status-label">Network Link</div>
@@ -120,7 +120,12 @@ const MachineHealth: React.FC = () => {
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis dataKey="time" />
-            <YAxis />
+            <YAxis
+              domain={[-0.5, 2.5]} // Allow for slight negative readings if the sensor shifts
+              tickCount={7}
+              tickFormatter={(value) => `${value.toFixed(1)} g`} // Adds the unit
+              width={60} // Ensures enough space for the labels
+            />
             <Tooltip contentClassName="tooltip-custom" />
             <Legend wrapperStyle={{ paddingTop: '10px' }} />
             <Line type="monotone" dataKey="accel_x" stroke="var(--accent-blue)" strokeWidth={2} animationDuration={300} dot={false} />
