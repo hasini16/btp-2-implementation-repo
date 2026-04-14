@@ -1,6 +1,8 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 import json
 
+import logging
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 # Keep track of active WebSocket connections
@@ -12,17 +14,19 @@ class ConnectionManager:
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
         self.active_connections.append(websocket)
+        logger.info(f"New WS connection: {websocket.client.host}")
 
     def disconnect(self, websocket: WebSocket):
         if websocket in self.active_connections:
             self.active_connections.remove(websocket)
 
     async def broadcast(self, message: str):
+        logger.debug(f"Broadcasting data to {len(self.active_connections)} clients: {message[:100]}...")
         for connection in self.active_connections:
             try:
                 await connection.send_text(message)
             except Exception:
-                # If a client disconnected unexpectedly, we ignore it here
+                logger.warning("Failed to send to client, removing")
                 pass
 
 manager = ConnectionManager()
@@ -37,7 +41,10 @@ async def websocket_live_feed(websocket: WebSocket):
     try:
         while True:
             data = await websocket.receive_text()
-            # The ESP32 sends a JSON string. We bounce it out to all connected clients.
+            logger.debug(f"Received WS data from {websocket.client.host}: {data[:100]}...")
             await manager.broadcast(data)
+    except WebSocketDisconnect:
+        logger.info(f"WS client disconnected: {websocket.client.host}")
+        manager.disconnect(websocket)
     except WebSocketDisconnect:
         manager.disconnect(websocket)

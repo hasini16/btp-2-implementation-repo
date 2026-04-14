@@ -154,7 +154,7 @@ void loop() {
     float temp;  
     
     Acc.GetAxes(acc);
-    Acc.GetTemperature(&temp);
+    // Acc.GetTemperature(&temp);
 
     // Convert raw ACC data (mg) to float (g) if needed, 
     // or keep raw depending on how you trained the model.
@@ -166,11 +166,9 @@ void loop() {
     // We package the 4 features (Vib_X, Vib_Y, Vib_Z, Temp) into an array
     // This matches the [features] part of the (timesteps, features) shape
     StaticJsonDocument<200> doc;
-    JsonArray dataArray = doc.createNestedArray("sensor_reading");
-    dataArray.add(accX); // Feature 1: Vibration X
-    dataArray.add(accY); // Feature 2: Vibration Y
-    dataArray.add(accZ); // Feature 3: Vibration Z
-    dataArray.add(temp); // Feature 4: Temperature
+    doc["accel_x"] = acc[0]; // raw mg for backend preprocess
+    doc["accel_y"] = acc[1];
+    doc["accel_z"] = acc[2];
 
     String jsonString;
     serializeJson(doc, jsonString);

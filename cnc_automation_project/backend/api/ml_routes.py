@@ -2,49 +2,62 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 import numpy as np
 import os
+import tensorflow as tf
+import logging
 
-# Import ML modules
-from ml_models.cnn_lstm import RULPredictor
+logger = logging.getLogger(__name__)
+
+WINDOW_SIZE = 4096
+LSB_PER_G = 2048
+
+# Load CNN model for binary Good/Bad classification
+model_path = os.path.join(os.path.dirname(__file__), '..', 'saved_models', 'final_cnn_model.keras')
+model = tf.keras.models.load_model(model_path)
+logger.info(f"Loaded model from {model_path}")
 
 router = APIRouter()
 
-# --- Initialize the ML Model ---
-model_file_path = os.path.join(os.path.dirname(__file__), '..', 'ml_models', 'saved_models', 'cnn_lstm_rul.keras')
-predictor = RULPredictor(model_path=model_file_path)
 
-class SensorData(BaseModel):
-    # Expecting time-series data: a list of timesteps, where each timestep is a list of sensor features
-    sequence_data: list[list[float]]
 
-@router.post("/predict-rul")
-async def predict_remaining_useful_life(data: SensorData):
+class HealthData(BaseModel):
+    raw_sequence: list[list[int]]  # 4096 x [accel_x_raw, accel_y_raw, accel_z_raw]
+
+@router.post("/predict-health")
+async def predict_machine_health(data: HealthData):
     """
-    Endpoint to receive time-series sensor data, reshape it, 
-    and return the RUL prediction from the CNN-LSTM model.
+    Binary classification Good/Bad using CNN on 4096x3 accel data (raw -> g).
     """
-    if predictor.model is None:
-        return {
-            "status": "Model not trained yet. Returning dummy data.",
-            "remaining_useful_life_hours": 124.5,
-            "model_status": "Inactive"
-        }
-        
+    logger.info("Health prediction requested")
     try:
-        input_array = np.array([data.sequence_data])
-        
-        rul_prediction = predictor.predict(input_array)
-        
-        if rul_prediction < 50:
-            health_status = "Critical - Maintenance Required"
-        elif rul_prediction < 150:
-            health_status = "Warning - Monitor Closely"
-        else:
-            health_status = "Healthy"
-            
+        seq = np.array(data.raw_sequence, dtype=float) / LSB_PER_G
+        if seq.shape != (WINDOW_SIZE, 3):
+            raise HTTPException(status_code=400, detail=f"Expected shape ({WINDOW_SIZE},3), got {seq.shape}")
+        input_array = seq.reshape(1, WINDOW_SIZE, 3)
+        prob_bad = model.predict(input_array, verbose=0)[0][0]
+        status = "Bad" if prob_bad > 0.5 else "Good"
+        confidence = max(prob_bad, 1 - prob_bad)
+        logger.info(f"Prediction: {status} (bad_prob: {prob_bad:.3f})")
         return {
-            "status": health_status,
-            "remaining_useful_life_hours": round(rul_prediction, 2),
-            "model_status": "Active"
+            "health_status": status,
+            "bad_probability": float(prob_bad),
+            "confidence": float(confidence),
+            "threshold": 0.5
         }
     except Exception as e:
+        logger.error(f"Prediction failed: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
+
+@router.get("/model-info")
+async def get_model_info():
+    """
+    Model metadata and summary.
+    """
+    logger.info("Model info requested")
+    summary_lines = []
+    model.summary(print_fn=lambda x: summary_lines.append(x))
+    return {
+        "input_shape": str(model.input_shape),
+        "output_shape": str(model.output_shape),
+        "summary_top": "\n".join(summary_lines[:15]),
+        "description": "CNN Binary Classifier (Good=0/Bad=1) on 4096x3 accelerometer data in g units."
+    }

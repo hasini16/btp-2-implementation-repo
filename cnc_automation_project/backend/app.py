@@ -1,15 +1,31 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('logs/backend.log'),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
 
 # Import the routers from api folder
-from api.cad_routes import router as cad_router
+# CAD removed: from api.cad_routes import router as cad_router
+</xai:function_call:
+
+
+
+<xai:function_call name="edit_file">
+<parameter name="path">cnc_automation_project/backend/app.py
 from api.ml_routes import router as ml_router
 from api.live_feed_routes import router as live_feed_router
 
 app = FastAPI(
-    title="CNC Automation & Predictive Maintenance API",
-    description="Backend for bridging SolidWorks/CAMWorks and CNN-LSTM models.",
+title="Machine Health Remote Monitoring API",
+    description="FastAPI backend for ESP32S2 live telemetry and CNN health predictions.",
     version="1.0.0"
 )
 
@@ -23,8 +39,14 @@ app.add_middleware(
 )
 
 # Include the API routes
-app.include_router(cad_router, prefix="/api/cad", tags=["CAD Automation"])
-app.include_router(ml_router, prefix="/api/ml", tags=["Machine Health"])
+# CAD removed: app.include_router(cad_router, prefix="/api/cad", tags=["CAD Automation"])
+</xai:function_call:
+
+
+
+<xai:function_call name="edit_file">
+<parameter name="path">cnc_automation_project/backend/app.py
+app.include_router(ml_router, prefix="/api/ml", tags=["ML Predictions"])
 app.include_router(live_feed_router, prefix="/api/live-feed", tags=["Live Feed"])
 
 @app.get("/")
