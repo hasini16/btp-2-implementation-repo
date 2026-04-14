@@ -55,19 +55,37 @@ const MachineHealth: React.FC = () => {
     setIsPredictReady(rawBuffer.length >= 4096);
   }, [rawBuffer.length]);
 
-  // WS connection
-  useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8000/api/live-feed/ws');
+  // WS connection with reconnect + heartbeat
+  const [ws, setWs] = useState<WebSocket | null>(null);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const heartbeatIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const reconnectDelayRef = useRef(1000);
 
-    ws.onopen = () => {
+  const connectWebSocket = useCallback(() => {
+    const newWs = new WebSocket('ws://localhost:8000/api/live-feed/ws');
+    setWs(newWs);
+    setConnectionStatus('Connecting...');
+
+    newWs.onopen = () => {
       setConnectionStatus('Connected');
       addLog('WebSocket connected to backend');
       toast.success('Live feed connected 📡');
+      reconnectDelayRef.current = 1000; // Reset backoff
+
+      // Start heartbeat
+      heartbeatIntervalRef.current = setInterval(() => {
+        if (newWs.readyState === WebSocket.OPEN) {
+          newWs.send(JSON.stringify({ type: 'ping' }));
+        }
+      }, 30000); // 30s ping
     };
 
-    ws.onmessage = (event) => {
+    newWs.onmessage = (event) => {
       try {
-        const parsed = JSON.parse(event.data) as any;
+        const data = JSON.parse(event.data);
+        if (data.type === 'pong') return; // Heartbeat response
+
+        const parsed = data as any;
         const newPoint: SensorRawData = {
           time: new Date().toLocaleTimeString(),
           accel_x_raw: parsed.accel_x || 0,
@@ -84,7 +102,7 @@ const MachineHealth: React.FC = () => {
 
         setRawBuffer((prev) => {
           const updated = [...prev, newPoint];
-          if (updated.length > 5000) { // Buffer safety
+          if (updated.length > 5000) {
             updated.shift();
           }
           return updated;
@@ -115,20 +133,41 @@ const MachineHealth: React.FC = () => {
       }
     };
 
-    ws.onclose = () => {
+    newWs.onclose = () => {
       setConnectionStatus('Disconnected');
       setMachineStatus('Offline');
-      // toast.error('Live feed disconnected ❌');
-      addLog('WebSocket disconnected');
+      addLog('WebSocket disconnected - will reconnect');
+      
+      // Clear heartbeat
+      if (heartbeatIntervalRef.current) {
+        clearInterval(heartbeatIntervalRef.current);
+        heartbeatIntervalRef.current = null;
+      }
+
+      // Reconnect with backoff
+      if (reconnectTimeoutRef.current) clearTimeout(reconnectTimeoutRef.current);
+      reconnectTimeoutRef.current = setTimeout(() => {
+        connectWebSocket();
+      }, reconnectDelayRef.current);
+      reconnectDelayRef.current = Math.min(reconnectDelayRef.current * 2, 30000); // Max 30s
     };
 
-    ws.onerror = (e) => {
+    newWs.onerror = (e) => {
       setConnectionStatus('Error');
       addLog('WebSocket error');
     };
+  }, [addLog]);
 
-    return () => ws.close();
-  }, [addLog, rawBuffer.length, recentData]);
+  // Initial connection + cleanup
+  useEffect(() => {
+    connectWebSocket();
+
+    return () => {
+      if (reconnectTimeoutRef.current) clearTimeout(reconnectTimeoutRef.current);
+      if (heartbeatIntervalRef.current) clearInterval(heartbeatIntervalRef.current);
+      if (ws) ws.close();
+    };
+  }, [connectWebSocket]);
 
   const handlePredict = async () => {
     if (!isPredictReady) {

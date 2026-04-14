@@ -16,6 +16,8 @@ router = APIRouter()
 # Lazy model loading with lock
 model = None
 model_lock = Lock()
+
+# IMPORTANT: Pointing to the native .keras file instead of .joblib
 model_path = os.path.join(os.path.dirname(__file__), '..', 'saved_models', 'final_cnn_model.keras')
 
 def load_model_safe():
@@ -24,14 +26,14 @@ def load_model_safe():
         with model_lock:
             if model is None:
                 try:
-                    logger.info(f"Loading model from {model_path}")
-                    model = tf.keras.models.load_model(model_path, compile=False, safe_mode=True)
-                    logger.info("Model loaded successfully with safe_mode")
+                    logger.info(f"Loading model from {model_path}")                
+                    # Using TensorFlow's native loader
+                    model = tf.keras.models.load_model(model_path, compile=False) 
+                    logger.info("Model loaded successfully")
                 except Exception as e:
                     logger.error(f"Failed to load model: {e}")
                     raise RuntimeError(f"Model load failed: {str(e)}")
     return model
-
 
 class HealthData(BaseModel):
     raw_sequence: list[list[int]]  # 4096 x [accel_x_raw, accel_y_raw, accel_z_raw]
@@ -83,4 +85,3 @@ async def get_model_info():
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Model info failed: {str(e)}")
-

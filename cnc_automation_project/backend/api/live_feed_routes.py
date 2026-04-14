@@ -22,12 +22,23 @@ class ConnectionManager:
 
     async def broadcast(self, message: str):
         logger.debug(f"Broadcasting data to {len(self.active_connections)} clients: {message[:100]}...")
+        disconnected = []
         for connection in self.active_connections:
             try:
                 await connection.send_text(message)
             except Exception:
-                logger.warning("Failed to send to client, removing")
-                pass
+                logger.warning("Failed to send to client, marking for removal")
+                disconnected.append(connection)
+        
+        # Cleanup dead connections
+        for conn in disconnected:
+            self.active_connections.remove(conn)
+
+    async def send_pong(self, websocket: WebSocket):
+        try:
+            await websocket.send_text(json.dumps({"type": "pong"}))
+        except:
+            pass
 
 manager = ConnectionManager()
 
@@ -35,16 +46,23 @@ manager = ConnectionManager()
 async def websocket_live_feed(websocket: WebSocket):
     """
     WebSocket endpoint for both ESP32 (producer) and React frontend (consumer).
-    When ESP32 sends JSON data, it broadcasts to all connected clients.
+    Supports ping/pong heartbeat. ESP32 sends data → broadcast to all clients.
     """
     await manager.connect(websocket)
     try:
         while True:
             data = await websocket.receive_text()
+            parsed_data = json.loads(data)
+            
+            if parsed_data.get("type") == "ping":
+                logger.debug(f"Ping from {websocket.client.host}")
+                await manager.send_pong(websocket)
+                continue
+                
             logger.debug(f"Received WS data from {websocket.client.host}: {data[:100]}...")
             await manager.broadcast(data)
+            
     except WebSocketDisconnect:
         logger.info(f"WS client disconnected: {websocket.client.host}")
-        manager.disconnect(websocket)
-    except WebSocketDisconnect:
+    finally:
         manager.disconnect(websocket)

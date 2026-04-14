@@ -16,7 +16,7 @@ router = APIRouter()
 # Lazy model loading with lock
 model = None
 model_lock = Lock()
-model_path = os.path.join(os.path.dirname(__file__), '..', 'saved_models', 'final_cnn_model.keras')
+model_path = os.path.join(os.path.dirname(__file__), '..', 'saved_models', 'final_cnn_model.joblib')
 
 def load_model_safe():
     global model
@@ -24,7 +24,9 @@ def load_model_safe():
         with model_lock:
             if model is None:
                 try:
-                    logger.info(f"Loading model from {model_path}")\n                    model = tf.keras.models.load_model(model_path, compile=False, safe_mode=True)\n                    logger.info("Model loaded successfully with safe_mode")
+                    logger.info(f"Loading model from {model_path}")                
+                    model = tf.keras.models.load_model(model_path, compile=False, safe_mode=True) 
+                    logger.info("Model loaded successfully with safe_mode")
                 except Exception as e:
                     logger.error(f"Failed to load model: {e}")
                     raise RuntimeError(f"Model load failed: {str(e)}")
