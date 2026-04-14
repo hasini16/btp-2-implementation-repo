@@ -1,0 +1,241 @@
+\documentclass[12pt, a4paper, oneside]{Thesis} % Paper size, default font size and one-sided paper
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{amsmath}
+
+
+\usepackage{lineno,hyperref}
+\modulolinenumbers[5]
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{algorithm}% http://ctan.org/pkg/algorithms
+\usepackage{algpseudocode}
+\usepackage{algorithmicx}
+
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{stackengine}
+\usepackage{url}
+\usepackage{numprint}
+\usepackage{caption}
+
+\usepackage{booktabs}
+\usepackage{siunitx}
+%\usepackage[showframe=false]{geometry}
+\usepackage{subfigure}
+
+\nprounddigits{3}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+\setstackEOL{\#}
+\setstackgap{L}{12pt}
+
+
+%\usepackage{subcaption} %incompatible with subfig
+\graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
+\usepackage{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers' v
+
+\hypersetup{urlcolor=black, colorlinks=false} % Colors hyperlinks in blue - change to black if annoyingv`	
+
+\thesistitle{Smart Fall Detection System}
+\supervisor{Professor Sudip Misra}
+\degree{Bachelor of Technology}
+\degreemajor{Computer Science and Engineering}
+\authors{Adhithya and Tejaraam}
+\rollno{22CS30019 and 22CS30059}
+\university{Indian Institute of Technology Kharagpur}
+\department{Department of Computer Science and Engineering}
+\unisite{http://www.iitkgp.ac.in/}
+\depsite{http://cse.iitkgp.ac.in/}
+\placeshrt{Kharagpur}
+\placelng{Kharagpur - 721302, India}
+\datesub{11th November 2025}
+\datesig{11th November 2025}
+\semsub{Autumn Semester, 2025-26}
+\keywords{Wearable Sensor, Accelerometer, Gyroscope, Machine Learning, Random Forest, IoT, Fall Detection}
+
+\title{\ttitle} % Defines the thesis title - don't touch this
+\begin{document}
+%\makeatletter
+%\renewcommand*{\NAT@nmfmt}[1]{\textsc{#1}}
+%\makeatother
+
+% prints author names as small caps
+
+
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+
+\setstretch{1.6} % Line spacing of 1.6 (double line spacing)
+
+% Define the page headers using the FancyHdr package and set up for one-sided printing
+\fancyhead{} % Clears all page headers and footers
+\rhead{\thepage} % Sets the right side header to show the page number
+\lhead{} % Clears the left side page header
+
+%\pagestyle{fancy} % Finally, use the "fancy" page style to implement the FancyHdr headers
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % New command to make the lines in the title page
+
+% PDF meta-data
+\hypersetup{pdftitle={\ttitle}}
+\hypersetup{pdfsubject=\subjectname}
+\hypersetup{pdfauthor=\authornames}
+\hypersetup{pdfkeywords=\keywordnames}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+\coursecd{CS61066} % Define your course code here
+\maketitle
+%\titlepg % Add a gap in the Contents for aesthetics
+
+\clearpage % Start a new page
+
+%----------------------------------------------------------------------------------------
+%	DECLARATION PAGE (UNCOMMENTED)
+%----------------------------------------------------------------------------------------
+
+
+\Declaration% Add a gap in the Contents for aesthetics
+
+
+%----------------------------------------------------------------------------------------
+%	CERTIFICATE PAGE (UNCOMMENTED)
+%----------------------------------------------------------------------------------------
+
+\addtotoc{Certificate} % Add the "Abstract" page entry to the Contents
+
+\certificate{\addtocontents{toc}{} % Add a gap in the Contents, for aesthetics
+
+\clearpage % Start a new page
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT PAGE (UNCOMMENTED AND FILLED)
+%----------------------------------------------------------------------------------------
+
+\addtotoc{Abstract} % Add the "Abstract" page entry to the Contents
+
+\abstract{\addtocontents{toc}{} % Add a gap in the Contents, for aesthetics
+
+A Fall-Detection Device basically monitors the accelerometer and gyropscope readings of the person to which it was attached and tries to identify the fall pattern from the statistical data, which it derives from the sensor data. For analysing those, we will use a trained ML model deployed in the cloud. This device is not only capable of finding the fall patterns, but it can also collect the movement data in terms of statistical features of accelerometer and gyroscopic readings for future use, which can be further used to train the deployed model after labelling.
+
+The Device was intended to be multi-tasking. The device has two different modes, namely Data-Collection Mode, Data-Prediction Mode, for serving two unique functionalities. Data-Collection Mode: Our Device will collect the data from the sensors and compute the statistical features like mean, max, min and variance for each of the 6 sensor parameters [ ax,ay,az,gx,gy,gz] and send to the backend server to store for future labelling purposes. Data-Prediction Mode: Uses the trained ML model deployed in the cloud for real-time fall prediction.
+
+\textbf{\textit{Keywords - }} Wearable Sensor, Accelerometer, Gyroscope, Machine Learning, Random Forest, IoT, Fall Detection
+}
+
+\clearpage % Start a new page
+
+
+
+%----------------------------------------------------------------------------------------
+%	ACKNOWLEDGEMENTS (UNCOMMENTED)
+%----------------------------------------------------------------------------------------
+
+\setstretch{1.3} % Reset the line-spacing to 1.3 for body text (if it has changed)
+
+{\addtocontents{toc}{}} % Add a gap in the Contents, for aesthetics
+\chapter*{Acknowledgement}
+
+I would like to express my sincere gratitude to my supervisor, Prof. Sudip Misra, for his constant guidance, valuable suggestions, and encouragement throughout this project.  
+I am also thankful to our teaching assistant, Mr. Biswajit Ghosh, for his support and helpful feedback during the development of this work.  
+
+I would like to thank my friends and family for their continuous motivation, patience, and support, which helped me complete this project successfully.
+
+% }
+\clearpage % Start a new page
+
+
+%----------------------------------------------------------------------------------------
+%	LIST OF CONTENTS/FIGURES/TABLES PAGES (UNCOMMENTED)
+%----------------------------------------------------------------------------------------
+
+\pagestyle{fancy} % The page style headers have been "empty" all this time, now use the "fancy" headers as defined before to bring them back
+
+\lhead{\emph{Contents}} % Set the left side page header to "Contents"
+\tableofcontents % Write out the Table of Contents
+
+\lhead{\emph{List of Figures}} % Set the left side page header to "List of Figures"
+\listoffigures % Write out the List of Figures
+
+\lhead{\emph{List of Tables}} % Set the left side page header to "List of Tables"
+\listoftables % Write out the List of Tables
+
+%----------------------------------------------------------------------------------------
+%	ABBREVIATIONS (UNCOMMENTED AND FILLED)
+%----------------------------------------------------------------------------------------
+
+\clearpage % Start a new page
+
+\setstretch{1.5} % Set the line spacing to 1.5, this makes the following tables easier to read
+
+\lhead{\emph{Abbreviations}} % Set the left side page header to "Abbreviations"
+\listofsymbols{ll} % Include a list of Abbreviations (a table of two columns)
+{
+
+\textbf{ML} & \textbf{M}achine \textbf{L}earning \\
+\textbf{IoT} & \textbf{I}nternet \textbf{o}f \textbf{T}hings \\
+\textbf{RF} & \textbf{R}andom \textbf{F}orest \\
+\textbf{XGBoost} & E\textbf{x}treme \textbf{G}radient \textbf{B}oosting \\
+
+}
+
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - CHAPTERS
+%----------------------------------------------------------------------------------------
+
+\mainmatter % Begin numeric (1,2,3...) page numbering
+
+\pagestyle{fancy} % Return the page headers back to the "fancy" style
+
+% Include the chapters of the thesis as separate files from the Chapters folder
+% Uncomment the lines as you write the chapters
+
+\input{Chapters/Chapter1}
+\input{Chapters/Chapter2} 
+\input{Chapters/Chapter3} 
+\input{Chapters/Chapter4} 
+\input{Chapters/Chapter5} 
+\input{Chapters/Chapter6} 
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - APPENDICES
+%----------------------------------------------------------------------------------------
+
+\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
+
+\appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
+
+% Include the appendices of the thesis as separate files from the Appendices folder
+% Uncomment the lines as you write the Appendices
+
+% \input{Appendices/AppendixA}
+%\input{Appendices/AppendixB}
+%\input{Appendices/AppendixC}
+
+\addtocontents{toc}{} % Add a gap in the Contents, for aesthetics
+
+\backmatter
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY (UNCOMMENTED)
+%----------------------------------------------------------------------------------------
+%\nocite{*}
+\label{Bibliography}
+
+\lhead{\emph{Bibliography}} % Change the page header to say "Bibliography"
+
+\bibliographystyle{apalike} % Use the "custom" BibTeX style for formatting the Bibliography
+
+\bibliography{Bibliography} % The references (bibliography) information are stored in the file named "Bibliography.bib"
+
+\end{document}
