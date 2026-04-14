@@ -14,13 +14,7 @@ logger = logging.getLogger(__name__)
 
 # Import the routers from api folder
 # CAD removed: from api.cad_routes import router as cad_router
-</xai:function_call:
-
-
-
-<xai:function_call name="edit_file">
-<parameter name="path">cnc_automation_project/backend/app.py
-from api.ml_routes import router as ml_router
+from api.ml_routes_new_fixed import router as ml_router
 from api.live_feed_routes import router as live_feed_router
 
 app = FastAPI(
@@ -40,12 +34,6 @@ app.add_middleware(
 
 # Include the API routes
 # CAD removed: app.include_router(cad_router, prefix="/api/cad", tags=["CAD Automation"])
-</xai:function_call:
-
-
-
-<xai:function_call name="edit_file">
-<parameter name="path">cnc_automation_project/backend/app.py
 app.include_router(ml_router, prefix="/api/ml", tags=["ML Predictions"])
 app.include_router(live_feed_router, prefix="/api/live-feed", tags=["Live Feed"])
 

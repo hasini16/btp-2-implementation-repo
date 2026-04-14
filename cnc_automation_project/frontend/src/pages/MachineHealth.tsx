@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { healthService, HealthResponse, ModelInfo } from '../services/api';
+import { healthService } from '../services/api';
 
 interface SensorRawData {
   time: string;
@@ -118,7 +118,7 @@ const MachineHealth: React.FC = () => {
     ws.onclose = () => {
       setConnectionStatus('Disconnected');
       setMachineStatus('Offline');
-      toast.error('Live feed disconnected ❌');
+      // toast.error('Live feed disconnected ❌');
       addLog('WebSocket disconnected');
     };
 

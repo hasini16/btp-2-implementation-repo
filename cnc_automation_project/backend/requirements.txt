@@ -1,8 +1,10 @@
-flask
-fastapi
-pywin32
-tensorflow
-keras
-lime
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+tensorflow>=2.16.0
 pandas
 numpy
+pydantic
+python-multipart
+lime
+flask
+pywin32
