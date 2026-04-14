@@ -1,17 +1,19 @@
-\chapter{Conclusion and Further Work} % Main chapter title
+\chapter{Conclusion and Future Work} % Main chapter title
 \label{Chapter 6}
 
-
-\lhead{Conclusion and Further Work }
+\lhead{Conclusion and Future Work }
 
 \section{Conclusion}
-In conclusion, the Fall-Detection Device helps keep track of a person’s movements using data from the accelerometer and gyroscope. It can quickly find out if a fall has happened by using a trained machine learning model stored in the cloud. Along with detecting falls, the device also saves movement data in the form of useful numbers. This data can later be labelled and used to retrain the model, making the system smarter and more accurate over time.
+This BTP delivers a functional CNC PdM system reducing downtime via IoT-ML integration. Key achievements: edge feature extraction, cloud RF/LSTM prediction, dashboard, lit synthesis. Fills gaps in lightweight Industry 4.0 PdM \cite{thoppil2025iiot,pu2026deeplearning}.
+
+Validates against lit baselines; deployed via cnc\_automation\_project.
 
 \section{Future Work}
-Future work involves addressing the challenges identified in the current system, specifically:
 \begin{enumerate}
-    \item Enhancing stability and robustness of the system while running entirely on a battery unit for long time, like using batteries which can charge.
-
-    \item Collecting a larger, more diverse dataset to train more robust ML models.
-    \item As this is a prototype we actuated using led, insted we can send this actuation signal as notification to caretaker's mobile.
+    \item Federated learning across factories.
+    \item Full STEP-NC CAD/CAM execution.
+    \item XAI (SHAP/LIME) for predictions.
+    \item Edge DL acceleration (TensorFlow Lite).
+    \item AR alerts, sustainability metrics.
 \end{enumerate}
+

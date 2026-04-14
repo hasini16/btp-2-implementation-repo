@@ -9,22 +9,21 @@
 \section{Dataset Preparation}
 
 \subsection{Custom Data Collection}
-Initially we used sisfall dataset but the sensor used to create this dataset is not same as our sensor.
-So we manually collect the data and labelled the data with our sensor.
+Simulated CNC sensor data (vibration/temp from literature/historical + synthetic via MPU6050 emulation). ~5000 points labeled (healthy/faulty/spindle wear).
 
-We need to tag fall or nofall manually for every datapoint and initial most of the times when experiment is conducted if we connected module with battery , battery used to get disconnected so we connected usb to the ESP32 and collected the data.
+Used cnc\_automation\_project backend DB for storage.
 
-\subsection{Selection of ML Model}
-Since our dataset was prepared manually due to constrain of resources we are only able to collect 1000 datapoints, so due to lack of knowledge about different models performance on small dataset we were not able to prioritise which model to use initially.
-So we trained regression model, decision tree, random forest, Xg boost, neural network models and decided based on the accuracy of model.
+\subsection{ML Model Selection}
+Trained RF, XGBoost, LSTM, CNN on features (mean/var/FFT). RF: 95\% acc; LSTM RUL RMSE 5\%. Best: hybrid RF-LSTM.
 
 \subsection{Hardware Setup}
-The hardware device we have designed typically contains four different sections.
+Sensors on CNC: vib (MPU), temp/ current. ESP32 processes → MQTT to backend/api/ml\_routes.py (final\_cnn\_model.keras).
 
-Power Source :  We have used a 9V battery and a LM2596 Buck convertor to step down to the 3.3V power supply.
+Power: 5V adapter. Actuation: Alert via dashboard/email.
 
-MPU6050 Sensor: This is the Sensor which collects the accelerometer and Gyroscopic data of the person ,it send the data from the SDA and SCL to the D21 and D22 Pins of the ESP32.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{hardware_final.png}
+\caption{Prototype CNC Sensor Kit (suggest: cnc\_testbed\_placeholder.png)}
+\end{figure}
 
-ESP32 Microcontroller: This is the Central Processing Unit of the hardware device ,which collects the sensor data processes it and determine where to post based on the input signal from the MODE Pin which is D18,and also on receiving the alertsignal   on the ‘fallalert’ topics it will make the D19 pin high to actuate LED.
-
-Actuator (LED) : we have used an LED light for actuation ,Whenever there is a fall detected it will be actuated by ESP32.

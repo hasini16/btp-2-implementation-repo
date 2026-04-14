@@ -8,87 +8,75 @@
 
 \section{System Components and Architecture}
 
-Smart-Fall Detection System is built on a multi-layer IoT architecture that connects everything efficiently. 
-It's designed such that data flows easily from the IoT device to the cloud application, and then sends back an alert right away. 
-Using communication methods that save battery power, this creates a reliable and practical system that watches over the patient all the time.
+The PdM system uses multi-layer IIoT architecture for CNC monitoring: sensors → edge processing → cloud ML → dashboard.
 
 \vspace{0.5cm}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{../Pictures/arch.png}
-    \caption{Overall IoT Architecture of Smart-Fall Detection System}
+    \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{arch.png}
+    \caption{Overall IIoT Architecture for CNC PdM (suggest: add cnc\_arch\_placeholder.png for detailed CAD-CNC flow)}
+    \label{fig:arch}
 \end{figure}
 
 \newpage
-% ================================
-% Page 2 — Table + Data Collection
-% ================================
 
 \begin{table}[H]
     \centering
-    \caption{IoT System Layers and Components}
+    \caption{IIoT System Layers and Components}
     \label{tab:iot_layers}
-    \renewcommand{\arraystretch}{1.0}  % reduce row height
-    \setlength{\tabcolsep}{4pt}       % reduce column padding
-    \resizebox{\textwidth}{!}{%       % stretch to full width
+    \renewcommand{\arraystretch}{1.0}
+    \setlength{\tabcolsep}{4pt}
+    \resizebox{\textwidth}{!}{
     \begin{tabular}{|m{2.8cm}|m{3.5cm}|m{8.2cm}|}
         \hline
         \textbf{Layer} & \textbf{Components} & \textbf{Description} \\
         \hline
-        Sensing & MPU6050 & Collects accelerometer and gyroscope raw data. \\
+        Sensing & MPU6050/Vib/Temp & CNC sensors (vibration, temp, acoustics). \\
         \hline
-        Edge Processing & ESP32 microcontroller & Collects 100 samples from the MPU6050 sensor and computes statistical features (mean, max, min, variance) for all six variables (\textbf{Ax, Ay, Az, Gx, Gy, Gz}). \\
+        Edge & ESP32 & Computes features (mean, var, FFT) for 6+ axes. \\
         \hline
-        Communication & Wi-Fi, MQTT protocol & MQTT and Wi-Fi are used for \textbf{power-efficient} publish–subscribe communication between the IoT node and the backend server. \\
+        Comm & WiFi/MQTT & Power-efficient to Flask backend. \\
         \hline
-        Analytics & Random Forest Model & A pretrained Random Forest model with 24 features is deployed on the backend server to identify fall patterns. \\
+        Analytics & RF/LSTM models & PdM classification/RUL (saved\_models/). \\
         \hline
-        Actuation & LED, Buzzer & Actuates the fall alert signal. \\
+        App & React Dashboard & Live feed, labeling, retrain (cnc\_automation\_project). \\
         \hline
-        Application & React Frontend Dashboard & Provides real-time monitoring, prediction analytics, and a dashboard for data labeling and model retraining. \\
-        \hline
-    \end{tabular}%
+    \end{tabular}
     }
 \end{table}
-
 
 \vspace{0.5cm}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth, height=0.3\textheight, keepaspectratio]{../Pictures/collection.png}
-    \caption{Data Collection Mode}
+    \includegraphics[width=0.8\textwidth, height=0.3\textheight, keepaspectratio]{collection.png}
+    \caption{Data Collection Mode (suggest: sensor\_data\_placeholder.png)}
 \end{figure}
 
 \newpage
-% ================================
-% Page 3 — Prediction + Hardware
-% ================================
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{../Pictures/prediction.png}
-    \caption{Data Prediction Mode}
+    \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{prediction.png}
+    \caption{PdM Prediction Mode (suggest: pdm\_plot\_placeholder.png)}
 
     \vspace{0.7cm}
 
-    \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{../Pictures/hardware_final.png}
-    \caption{Hardware Setup}
+    \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{hardware.png}
+    \caption{CNC Sensor Hardware Setup (suggest: cnc\_hardware\_placeholder.png)}
 \end{figure}
 
 \newpage
-% ================================
-% Page 4 — Dashboard Frontend 1 and 2
-% ================================
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth, height=0.7\textheight, keepaspectratio]{../Pictures/ui.jpg}
-    \caption{React Frontend Dashboard — Data Labeling}
+    \includegraphics[width=1\textwidth, height=0.7\textheight, keepaspectratio]{ui.jpg}
+    \caption{Frontend Dashboard — Labeling (Machine Health page)}
 
     \vspace{0.7cm}
 
-    \includegraphics[width=1\textwidth, height=0.7\textheight, keepaspectratio]{../Pictures/analytics.png}
-    \caption{React Frontend Dashboard — Analytics View}
+    \includegraphics[width=1\textwidth, height=0.7\textheight, keepaspectratio]{analytics.png}
+    \caption{Analytics View (Health predictions)}
 \end{figure}
+

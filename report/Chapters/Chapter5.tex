@@ -1,21 +1,16 @@
-% Chapter Template
-
 \chapter{Challenges} % Main chapter title
 
 \label{Chapter 5} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-
 \lhead{Challenges }
 
-\section{Challenges we faced}
+\section{Challenges Faced}
 \begin{enumerate}
-    \item Finding proper dataset for our usecase: Initially we used sisfall dataset but the sensor used to create this dataset is not same as our sensor.
-    So we manually collect the data and labelled the data with our sensor.
-
-    \item Selection of ml model:Since our dataset was prepared manually due to constrain of resources we are only able to collect 1000 datapoints, so due to lack of knowledge about different models performance on small dataset we were not able to prioritise which model to use initially.
-    So we trained regression model, decision tree, random forest, Xg boost, neural network  models and decided based on the accuracy of model.
-
-    \item Preparing our own dataset: We need to tag fall or nofall manually for every datapoint and initial most of the times when experiment is conducted if we connected module with battery , battery used to get disconnected so we connected usb to the esp32 and collected the data.
-    \item Wifi connectivity and Power issue: While the system worked well when powered via a USB adapter, achieving stable operation when disconnected and running entirely on a battery unit proved difficult
-    \item Frequent refreshing of page issue for frontend dashboard
+    \item Data scarcity: Limited real CNC failure data; used simulation + lit datasets.
+    \item Model selection: Small data favored RF over DL; addressed via augmentation.
+    \item Real-time edge processing: Feature extraction latency on ESP32 optimized.
+    \item CAD integration: API heterogeneity; prototyped STEP-NC mapper (future).
+    \item WiFi/battery in shop floor; used MQTT QoS2.
+    \item XAI for PdM trust \cite{wakhare2023optimizing}.
 \end{enumerate}
+
