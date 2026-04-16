@@ -58,7 +58,28 @@ async def websocket_live_feed(websocket: WebSocket):
                 logger.debug(f"Ping from {websocket.client.host}")
                 await manager.send_pong(websocket)
                 continue
-                
+
+            # Save sensor data to DB automatically
+            try:
+                from sqlalchemy.orm import sessionmaker
+                from database import engine
+                from models import SensorFeed
+
+                SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+                with SessionLocal() as session:
+                    sensor_record = SensorFeed(
+                        accel_x=float(parsed_data["accel_x"]),
+                        accel_y=float(parsed_data["accel_y"]),
+                        accel_z=float(parsed_data["accel_z"]),
+                        machine_id="cnc1"
+                    )
+                    session.add(sensor_record)
+                    session.commit()
+                    logger.debug(f"Sensor data saved to DB: {parsed_data['accel_x']:.2f}, {parsed_data['accel_y']:.2f}, {parsed_data['accel_z']:.2f}")
+            except Exception as e:
+                logger.error(f"DB save failed: {str(e)}")
+                # Continue broadcasting even if DB fails
+
             logger.debug(f"Received WS data from {websocket.client.host}: {data[:100]}...")
             await manager.broadcast(data)
             
