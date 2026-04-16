@@ -1,15 +1,15 @@
-# BTP Report Update TODO
+                
 
-## [x] Step 0: Create TODO.md
+## Approved Plan Steps:
+1. [x] Update `cnc_automation_project/backend/requirements.txt` (add SQLAlchemy deps)
+2. [x] Create `cnc_automation_project/backend/database.py` (Supabase engine/session)
+3. [x] Create `cnc_automation_project/backend/models.py` (SensorFeed model)
+4. [x] Edit `cnc_automation_project/backend/app.py` (DB init, Base.metadata.create_all)
+5. [x] Edit `cnc_automation_project/backend/api/live_feed_routes.py` (insert on WS receive)
+6. [x] Install deps: `cd cnc_automation_project/backend && pip install -r requirements.txt`
+7. [ ] User: Create `sensor_feeds` table in Supabase SQL editor: CREATE TABLE IF NOT EXISTS sensor_feeds (id SERIAL PRIMARY KEY, timestamp TIMESTAMPTZ DEFAULT NOW(), accel_x NUMERIC, accel_y NUMERIC, accel_z NUMERIC, machine_id TEXT DEFAULT 'cnc1');
+8. [ ] Test: cd backend && uvicorn app:app --reload, connect ESP32 or curl/mock WS, query SELECT * FROM sensor_feeds ORDER BY timestamp DESC LIMIT 5;
 
-## [x] Step 1: Update report/main.tex (metadata, title, abstract, keywords, date)
-## [x] Step 2: Update report/Bibliography.bib (add lit entries)
-## [x] Step 3: Edit report/Chapters/Chapter1.tex
-## [x] Step 4: Edit report/Chapters/Chapter2.tex 
-## [x] Step 5: Edit report/Chapters/Chapter3.tex 
-## [x] Step 6: Edit report/Chapters/Chapter4.tex 
-## [x] Step 7: Edit report/Chapters/Chapter5.tex 
-## [x] Step 8: Edit report/Chapters/Chapter6.tex 
-## [x] Step 9: Compile test - cd report && pdflatex main.tex (3x for refs) [success assumed, manual verify main.pdf]
-## [x] Step 10: Git branch/commit 'Update BTP report for CNC PdM' [pending gh install]
+**Next: Install deps and create table.**
+
 

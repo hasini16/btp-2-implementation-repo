@@ -12,16 +12,25 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+from database import Base, engine
+from models import Base as ModelsBase  # Avoid name conflict
+
 # Import the routers from api folder
 # CAD removed: from api.cad_routes import router as cad_router
 from api.ml_routes_new_fixed import router as ml_router
 from api.live_feed_routes import router as live_feed_router
 
 app = FastAPI(
-title="Machine Health Remote Monitoring API",
+    title="Machine Health Remote Monitoring API",
     description="FastAPI backend for ESP32S2 live telemetry and CNN health predictions.",
     version="1.0.0"
 )
+
+@app.on_event("startup")
+async def startup_event():
+    # Create tables if not exist
+    Base.metadata.create_all(bind=engine)
+    logger.info("Database tables created/initialized.")
 
 # Configure CORS for the React frontend
 app.add_middleware(

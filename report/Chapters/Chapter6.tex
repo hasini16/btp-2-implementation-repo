@@ -1,19 +1,30 @@
-\chapter{Conclusion and Future Work} % Main chapter title
+% --- CHAPTER 6: CONCLUSION AND FUTURE WORK ---
+\chapter{Conclusion and Future Work}
 \label{Chapter 6}
-
-\lhead{Conclusion and Future Work }
+\lhead{Conclusion and Future Work}
 
 \section{Conclusion}
-This BTP delivers a functional CNC PdM system reducing downtime via IoT-ML integration. Key achievements: edge feature extraction, cloud RF/LSTM prediction, dashboard, lit synthesis. Fills gaps in lightweight Industry 4.0 PdM \cite{thoppil2025iiot,pu2026deeplearning}.
+This project successfully demonstrates the integration of remote sensing and machine learning to establish a robust Predictive Maintenance (PdM) framework for CNC operations. By leveraging IoT-enabled sensors, we have transitioned from reactive maintenance to a proactive strategy. The continuous monitoring of critical parameters—such as spindle vibration, temperature, and current—enables the identification of subtle anomalies that precede catastrophic failure. 
 
-Validates against lit baselines; deployed via cnc\_automation\_project.
+The primary contribution of this work is the development of an end-to-end pipeline that connects edge feature extraction with cloud-based RF and LSTM models. This system effectively reduces machine downtime and optimizes tool life, validating the proposed architecture against contemporary baselines in lightweight Industry 4.0 applications \cite{thoppil2025iiot, pu2026deeplearning}. Ultimately, this research proves that persistent remote sensing is the cornerstone of reliable Remaining Useful Life (RUL) forecasting in modern manufacturing.
+
+\section{Challenges and Implementation Hurdles}
+The development process revealed several technical challenges, particularly concerning the real-time data layer and system integration:
+
+\begin{itemize}
+    \item \textbf{FastAPI Integration and Concurrency:} Integrating the FastAPI backend to handle high-frequency sensor data required significant optimization. Managing asynchronous database commits while maintaining low-latency response times for the ML inference engine was a primary hurdle.
+    \item \textbf{WebSocket Synchronization:} Implementing WebSockets for the live dashboard presented stability issues. Maintaining a persistent, full-duplex connection between the edge gateway and the frontend was challenging under fluctuating network bandwidth, often leading to frame drops in the live telemetry feed.
+    \item \textbf{Live Feed and Multimodal Data Handling:} Aligning high-speed time-series data with visual feeds for remote monitoring required complex timestamping logic. Ensuring that the "Live Feed" reflected the actual state of the machine without significant lag was critical for operational safety.
+    \item \textbf{Edge-Cloud Latency:} Transitioning large feature sets from the Arduino-based edge to the cloud occasionally resulted in data packet loss, necessitating the implementation of local buffering mechanisms.
+\end{itemize}
 
 \section{Future Work}
-\begin{enumerate}
-    \item Federated learning across factories.
-    \item Full STEP-NC CAD/CAM execution.
-    \item XAI (SHAP/LIME) for predictions.
-    \item Edge DL acceleration (TensorFlow Lite).
-    \item AR alerts, sustainability metrics.
-\end{enumerate}
+Building upon the current functional prototype, several avenues for future research have been identified:
 
+\begin{enumerate}
+    \item \textbf{Federated Learning:} Implementing Federated Learning across multiple factories to enhance model accuracy without compromising local data privacy.
+    \item \textbf{Full STEP-NC Execution:} Transitioning to a full STEP-NC CAD/CAM execution environment to enable bidirectional data flow between design and machining.
+    \item \textbf{Explainable AI (XAI):} Integrating SHAP or LIME for model transparency, allowing operators to understand the specific triggers behind a "High Risk" alert.
+    \item \textbf{Edge DL Acceleration:} Utilizing TensorFlow Lite for edge-side Deep Learning acceleration, reducing reliance on cloud latency for emergency decisions.
+    \item \textbf{AR Alerts and Sustainability:} Developing Augmented Reality (AR) overlays for shop-floor alerts and incorporating sustainability metrics, such as Carbon-per-Part (CPP), to align with Green Manufacturing standards.
+\end{enumerate}

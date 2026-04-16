@@ -47,8 +47,8 @@
 \supervisor{Professor Sankha Deb}
 \degree{Bachelor of Technology}
 \degreemajor{Mechanical Engineering}
-\authors{M. Krishna Hasini}
-\rollno{22MF3IM10}
+\authors{M. Krishna Hasini ,T. Anvila}
+\rollno{22MF3IM10 \& 22MF10042}
 \university{Indian Institute of Technology Kharagpur}
 \department{Department of Mechanical Engineering}
 \unisite{http://www.iitkgp.ac.in/}
@@ -123,9 +123,7 @@
 \addtotoc{Abstract} % Add the "Abstract" page entry to the Contents
 
 \abstract{\addtocontents{toc}{} % Add a gap in the Contents, for aesthetics
-
-This B.Tech Project develops an AI-driven Predictive Maintenance (PdM) system for CNC machines to minimize unscheduled downtime, a major cost in manufacturing. The system collects real-time multi-sensor data (vibration, temperature, acoustics) from CNC setups, extracts features on edge devices (e.g., ESP32), and employs cloud-based ML models (Random Forest, LSTM/CNN) for fault prediction and Remaining Useful Life (RUL) estimation. Key features include data collection mode for labeling, real-time prediction dashboard (React frontend), model retraining, and integration considerations for CAD/CAM workflows via STEP-NC for Industry 4.0. Built on the cnc\_automation\_project backend, it addresses literature gaps in lightweight, interpretable PdM with IoT.
-
+This B.Tech Project develops an AI-driven Predictive Maintenance (PdM) system for CNC machines designed to minimize unscheduled downtime through high-frequency vibration analysis. The system leverages the Bosch CNC Machining Dataset to train a robust CNN binary classifier capable of distinguishing between healthy and faulty operational states. A real-time data pipeline was engineered using the ESP32-S2 Indusboard V2 Coin, which captures tri-axial vibration data ($a_x, a_y, a_z$) and streams it via WebSockets to a FastAPI backend. This architecture enables instantaneous inference on live feeds, providing immediate diagnostic feedback. Built upon the cnc automation project backend, the system demonstrates an end-to-end Industry 4.0 solution that integrates lightweight edge hardware with deep learning to bridge the gap between physical machining processes and intelligent monitoring. \\
 \textbf{\textit{Keywords - }} CNC Predictive Maintenance, Machine Learning, LSTM, Random Forest, Industry 4.0, IoT, CAD/CAM, STEP-NC
 }
 
@@ -178,7 +176,7 @@ I would like to thank my friends and family for their continuous motivation and 
 \textbf{RF} & \textbf{R}andom \textbf{F}orest \\
 \textbf{LSTM} & \textbf{L}ong \textbf{S}hort-\textbf{T}erm \textbf{M}emory \\
 \textbf{CNN} & \textbf{C}onvolutional \textbf{N}eural \textbf{N}etwork \\
-\textbf{RUL} & \textbf{R}emaining \textbf{U}}seful \textbf{L}ife \\
+\textbf{RUL} & \textbf{R}emaining \textbf{U}seful\textbf{L}ife \\
 \textbf{IoT} & \textbf{I}nternet \textbf{o}f \textbf{T}hings \\
 \textbf{IIoT} & \textbf{I}ndustrial \textbf{I}nternet \textbf{o}f \textbf{T}hings \\
 \textbf{STEP-NC} & \textbf{ST}andard for the \textbf{E}xchange of \textbf{P}roduct model data - \textbf{NC} \\
@@ -193,7 +191,7 @@ I would like to thank my friends and family for their continuous motivation and 
 \pagestyle{fancy} % Return the page headers back to the "fancy" style
 
 % Include the chapters of the thesis as separate files from the Chapters folder
-% Uncomment the lines as you write the chapters
+% % Uncomment the lines as you write the chapters
 
 \input{Chapters/Chapter1}
 \input{Chapters/Chapter2} 

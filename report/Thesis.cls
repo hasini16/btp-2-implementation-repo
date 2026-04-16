@@ -240,8 +240,8 @@
 \vfill
 
 
-\normalsize{\coursecds Term Project \par \textbf{ARCHITECTURE AND PROTOCOLS FOR INTERNET OF THINGS}
-\par \textbf{CS61066}
+\normalsize{  \par \textbf{BTP-II PROJECT}
+\par \textbf{ME47602}
 \par 
 \par
 \par 

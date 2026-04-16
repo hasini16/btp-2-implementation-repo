@@ -8,22 +8,128 @@
 
 \section{Dataset Preparation}
 
-\subsection{Custom Data Collection}
-Simulated CNC sensor data (vibration/temp from literature/historical + synthetic via MPU6050 emulation). ~5000 points labeled (healthy/faulty/spindle wear).
+\subsection{Dataset Selection}
+Used dataset from the BOSCH research named BOSCH CISS Sensor Dataset which is collected on three different machines and for three months spans, while performing different activities.
 
-Used cnc\_automation\_project backend DB for storage.
-
-\subsection{ML Model Selection}
-Trained RF, XGBoost, LSTM, CNN on features (mean/var/FFT). RF: 95\% acc; LSTM RUL RMSE 5\%. Best: hybrid RF-LSTM.
-
-\subsection{Hardware Setup}
-Sensors on CNC: vib (MPU), temp/ current. ESP32 processes → MQTT to backend/api/ml\_routes.py (final\_cnn\_model.keras).
-
-Power: 5V adapter. Actuation: Alert via dashboard/email.
+\subsection{Model Selection}
+Trained LSTM and CNN models because it is a time-series data, we got more accuracy in CNN so trained LSTM.
 
 \begin{figure}[H]
-\centering
-\includegraphics[width=0.8\textwidth]{hardware_final.png}
-\caption{Prototype CNC Sensor Kit (suggest: cnc\_testbed\_placeholder.png)}
+    \centering
+    \includegraphics[width=0.8\textwidth, height=0.3\textheight, keepaspectratio]{Pictures/sensor_collecting_data.jpeg}
+    \caption{CNN confusion matrix}
 \end{figure}
 
+\section{Micro Controller Firmware}
+The following C++ code was deployed on the IndusBoard Coin V2 using the Arduino IDE. It initializes the onboard I2C sensors (Accelerometer and Magnetometer), connects to the local Wi-Fi network, packages the raw accelerometer data into a JSON payload, and streams it over WebSockets at a frequency of 10Hz to the backend server.
+
+\begin{lstlisting}[language=C++, caption={IndusBoard Coin V2 WebSocket Data Streamer}, label={lst:indusboard_code}]
+const char* websocket_server = "10.114.46.246"; 
+const uint16_t websocket_port = 8000;
+const char* websocket_path = "/api/live-feed/ws"; 
+
+// I2C Pins for IndusBoard Coin V2
+#define I2C_SDA 8
+#define I2C_SCL 9
+
+LSM303AGR_ACC_Sensor Acc(&Wire);
+LSM303AGR_MAG_Sensor Mag(&Wire);
+WebSocketsClient webSocket;
+
+unsigned long lastSendTime = 0;
+const unsigned long sendInterval = 100; // Send data every 100ms (10Hz)
+
+// WebSocket Event Handler
+void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
+    switch(type) {
+        case WStype_DISCONNECTED:
+            Serial.printf("[WSc] Disconnected!\n");
+            break;
+        case WStype_CONNECTED:
+            Serial.printf("[WSc] Connected to url: %s\n", payload);
+            break;
+    }
+}
+
+void setup() {
+  Serial.begin(115200);
+  delay(2000); 
+  
+  Serial.println("--- IndusBoard Coin V2 WebSocket Streamer ---");
+
+  // --- Initialize Sensors ---
+  Wire.begin(I2C_SDA, I2C_SCL); 
+
+  if (Acc.begin() == 0) {
+    Acc.Enable();
+    Acc.EnableTemperatureSensor();
+    Serial.println("Accelerometer Ready!");
+  } else {
+    Serial.println("Acc Init Failed.");
+  }
+
+  if (Mag.begin() == 0) {
+    Mag.Enable();
+    Serial.println("Magnetometer Ready!");
+  } else {
+    Serial.println("Mag Init Failed.");
+  }
+
+  // --- Connect to Wi-Fi ---
+  Serial.print("Connecting to Wi-Fi: ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nWi-Fi Connected!");
+  Serial.print("ESP32 IP Address: ");
+  Serial.println(WiFi.localIP());
+
+  // --- Configure WebSocket Client ---
+  webSocket.begin(websocket_server, websocket_port, websocket_path);
+  webSocket.onEvent(webSocketEvent);
+  webSocket.setReconnectInterval(5000); // Try to reconnect every 5s if dropped
+}
+
+void loop() {
+  webSocket.loop(); // Keep WebSocket connection alive
+
+  // Non-blocking delay to send data at the specified interval
+  if (millis() - lastSendTime >= sendInterval) {
+    lastSendTime = millis();
+    
+    int32_t acc[3];
+    float temp;  
+    
+    Acc.GetAxes(acc);
+    // Acc.GetTemperature(&temp);
+
+    // Convert raw ACC data (mg) to float (g) if needed, 
+    // or keep raw depending on how you trained the model.
+    float accX = acc[0] * 0.001;
+    float accY = acc[1] * 0.001;
+    float accZ = acc[2] * 0.001;
+
+    // --- Build JSON Payload ---
+    // We package the 4 features (Vib_X, Vib_Y, Vib_Z, Temp) into an array
+    // This matches the [features] part of the (timesteps, features) shape
+    StaticJsonDocument<200> doc;
+    doc["accel_x"] = acc[0]; // raw mg for backend preprocess
+    doc["accel_y"] = acc[1];
+    doc["accel_z"] = acc[2];
+
+    String jsonString;
+    serializeJson(doc, jsonString);
+
+    // Send it!
+    if(webSocket.isConnected()){
+      webSocket.sendTXT(jsonString);
+      Serial.print("Sent: ");
+      Serial.println(jsonString);
+    }
+  }
+}
+\end{lstlisting}

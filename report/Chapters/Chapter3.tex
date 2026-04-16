@@ -14,7 +14,7 @@ The PdM system uses multi-layer IIoT architecture for CNC monitoring: sensors â†
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{arch.png}
+    \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{Pictures/millling.drawio.png}
     \caption{Overall IIoT Architecture for CNC PdM (suggest: add cnc\_arch\_placeholder.png for detailed CAD-CNC flow)}
     \label{fig:arch}
 \end{figure}
@@ -32,15 +32,15 @@ The PdM system uses multi-layer IIoT architecture for CNC monitoring: sensors â†
         \hline
         \textbf{Layer} & \textbf{Components} & \textbf{Description} \\
         \hline
-        Sensing & MPU6050/Vib/Temp & CNC sensors (vibration, temp, acoustics). \\
+        Sensing & ESP32S2 Indusboard v2 Coin & 3 axis accelration data is collected  \\
         \hline
-        Edge & ESP32 & Computes features (mean, var, FFT) for 6+ axes. \\
+        Edge & ESP32S2 Indusboard v2 Coin& Post the data in the form of JSON data to Web Socket \\
         \hline
-        Comm & WiFi/MQTT & Power-efficient to Flask backend. \\
+        Comm & WiFi& Power-efficient to Flask backend. \\
         \hline
-        Analytics & RF/LSTM models & PdM classification/RUL (saved\_models/). \\
+        Analytics & CNN model & Binary Classification Done using the Vibrational Data  \\
         \hline
-        App & React Dashboard & Live feed, labeling, retrain (cnc\_automation\_project). \\
+        App & React Dashboard & Live feed , Prediction Status and Status of Connection \\
         \hline
     \end{tabular}
     }
@@ -50,33 +50,33 @@ The PdM system uses multi-layer IIoT architecture for CNC monitoring: sensors â†
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth, height=0.3\textheight, keepaspectratio]{collection.png}
-    \caption{Data Collection Mode (suggest: sensor\_data\_placeholder.png)}
+    \includegraphics[width=0.8\textwidth, height=0.3\textheight, keepaspectratio]{Pictures/sensor_collecting_data.jpeg}
+    \caption{Indusboard V2 Coin Collecting Data}
 \end{figure}
 
 \newpage
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{prediction.png}
-    \caption{PdM Prediction Mode (suggest: pdm\_plot\_placeholder.png)}
+    \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{Pictures/live_without_enough_data.jpeg}
+    \caption{real-time Dashboard}
 
     \vspace{0.7cm}
 
-    \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{hardware.png}
-    \caption{CNC Sensor Hardware Setup (suggest: cnc\_hardware\_placeholder.png)}
+    \includegraphics[width=0.8\textwidth, height=0.4\textheight, keepaspectratio]{Pictures/hardwarechip.jpeg}
+    \caption{Indusboard v2 Coin }
 \end{figure}
 
 \newpage
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth, height=0.7\textheight, keepaspectratio]{ui.jpg}
+    \includegraphics[width=1\textwidth, height=0.7\textheight, keepaspectratio]{Pictures/livedashboard.jpeg}
     \caption{Frontend Dashboard â€” Labeling (Machine Health page)}
 
     \vspace{0.7cm}
 
-    \includegraphics[width=1\textwidth, height=0.7\textheight, keepaspectratio]{analytics.png}
+    \includegraphics[width=1\textwidth, height=0.7\textheight, keepaspectratio]{Pictures/prediction_card_with_enough_data.jpeg}
     \caption{Analytics View (Health predictions)}
 \end{figure}
 

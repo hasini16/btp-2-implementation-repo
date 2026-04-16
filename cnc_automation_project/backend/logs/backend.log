@@ -1,0 +1,121 @@
+2026-04-15 22:58:07,795 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-15 22:58:18,957 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-15 22:58:18,958 - api.ml_routes_new_fixed - INFO - Loading model from C:\Users\adhit\OneDrive\Desktop\btp-2-implementation-repo\cnc_automation_project\backend\api\..\saved_models\final_cnn_model.keras
+2026-04-15 22:58:19,391 - tensorflow - WARNING - TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+2026-04-15 22:58:19,394 - api.ml_routes_new_fixed - INFO - Model loaded successfully
+2026-04-15 22:58:19,420 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-15 22:58:19,423 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-15 22:58:19,440 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-15 22:59:23,320 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-15 22:59:23,631 - api.live_feed_routes - INFO - WS client disconnected: 10.114.46.11
+2026-04-15 23:02:31,311 - api.ml_routes_new_fixed - INFO - Health prediction requested
+2026-04-15 23:02:33,322 - api.ml_routes_new_fixed - INFO - Prediction: Good (bad_prob: 0.000)
+2026-04-15 23:02:44,791 - api.ml_routes_new_fixed - INFO - Health prediction requested
+2026-04-15 23:02:44,928 - api.ml_routes_new_fixed - INFO - Prediction: Good (bad_prob: 0.000)
+2026-04-15 23:03:05,566 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-15 23:03:06,007 - api.live_feed_routes - INFO - WS client disconnected: 10.114.46.11
+2026-04-15 23:03:17,890 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-15 23:03:17,892 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-15 23:03:17,896 - api.live_feed_routes - INFO - WS client disconnected: 10.114.46.11
+2026-04-16 16:08:21,177 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 16:09:26,670 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 16:09:59,362 - api.live_feed_routes - INFO - WS client disconnected: 10.114.46.11
+2026-04-16 16:10:22,552 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 16:10:53,059 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 16:11:02,641 - api.live_feed_routes - INFO - WS client disconnected: 10.114.46.11
+2026-04-16 16:11:23,577 - api.live_feed_routes - INFO - WS client disconnected: 10.114.46.11
+2026-04-16 16:11:23,589 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 16:12:25,544 - api.live_feed_routes - INFO - WS client disconnected: 10.114.46.11
+2026-04-16 16:34:29,107 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 16:35:05,990 - app - INFO - Database tables created/initialized.
+2026-04-16 16:35:06,017 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 16:36:22,590 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 16:36:23,887 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 16:36:23,887 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-16 16:36:23,891 - api.ml_routes_new_fixed - INFO - Loading model from C:\Users\adhit\OneDrive\Desktop\btp-2-implementation-repo\cnc_automation_project\backend\api\..\saved_models\final_cnn_model.keras
+2026-04-16 16:36:24,542 - tensorflow - WARNING - TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+2026-04-16 16:36:24,550 - api.ml_routes_new_fixed - INFO - Model loaded successfully
+2026-04-16 16:36:24,685 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 16:36:24,699 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-16 16:36:26,628 - app - INFO - Database tables created/initialized.
+2026-04-16 16:36:39,476 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 16:36:39,493 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 16:44:54,721 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 16:45:02,536 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 16:45:36,581 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 16:45:36,588 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-16 16:45:36,661 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 16:45:36,661 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-16 16:48:13,742 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 16:48:13,748 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 16:48:14,525 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-16 16:48:14,611 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 16:48:14,621 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-16 16:48:14,687 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 16:53:44,024 - app - INFO - Database tables created/initialized.
+2026-04-16 16:53:51,685 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 16:54:38,714 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 16:54:39,646 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 16:54:39,647 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-16 16:54:39,647 - api.ml_routes_new_fixed - INFO - Loading model from C:\Users\adhit\OneDrive\Desktop\btp-2-implementation-repo\cnc_automation_project\backend\api\..\saved_models\final_cnn_model.keras
+2026-04-16 16:54:40,133 - tensorflow - WARNING - TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+2026-04-16 16:54:40,134 - api.ml_routes_new_fixed - INFO - Model loaded successfully
+2026-04-16 16:54:40,155 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-16 16:54:40,172 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 16:57:06,884 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 16:57:07,656 - api.live_feed_routes - ERROR - DB save failed: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: INSERT INTO sensor_feeds (accel_x, accel_y, accel_z, machine_id) VALUES (%(accel_x)s, %(accel_y)s, %(accel_z)s, %(machine_id)s) RETURNING sensor_feeds.id, sensor_feeds.timestamp]
+[parameters: {'accel_x': 62.0, 'accel_y': 452.0, 'accel_z': 737.0, 'machine_id': 'cnc1'}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-04-16 16:58:12,608 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 16:59:09,517 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 17:00:14,048 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:00:19,091 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 17:09:16,898 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:09:17,628 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:09:31,669 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:09:31,889 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 17:09:31,918 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 17:12:03,467 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 17:13:25,010 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:13:25,077 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-16 17:13:25,315 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 17:13:25,315 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-16 17:13:25,380 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 17:13:25,698 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 17:14:53,236 - api.live_feed_routes - INFO - WS client disconnected: 10.114.46.11
+2026-04-16 17:15:27,057 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 17:17:04,573 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 17:17:06,449 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:17:06,751 - api.live_feed_routes - INFO - WS client disconnected: 10.114.46.11
+2026-04-16 17:19:09,012 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 17:19:09,012 - api.live_feed_routes - INFO - WS client disconnected: 10.114.46.11
+2026-04-16 17:19:09,020 - api.live_feed_routes - INFO - WS client disconnected: 10.114.46.11
+2026-04-16 17:19:09,020 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 17:20:01,292 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:20:06,000 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 17:20:06,957 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:20:06,957 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:20:06,957 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 17:20:09,569 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 17:20:34,872 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-16 17:20:34,944 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 17:20:34,944 - api.ml_routes_new_fixed - INFO - Model info requested
+2026-04-16 17:20:59,175 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 17:20:59,465 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:21:04,207 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 17:21:47,147 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:22:10,971 - api.live_feed_routes - INFO - New WS connection: 127.0.0.1
+2026-04-16 17:22:11,060 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:22:16,075 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 17:23:11,260 - api.live_feed_routes - WARNING - Failed to send to client, marking for removal
+2026-04-16 17:23:15,007 - api.live_feed_routes - INFO - New WS connection: 10.114.46.11
+2026-04-16 17:23:40,832 - api.live_feed_routes - INFO - WS client disconnected: 10.114.46.11
+2026-04-16 17:23:50,625 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
+2026-04-16 17:23:50,628 - api.live_feed_routes - INFO - WS client disconnected: 127.0.0.1
